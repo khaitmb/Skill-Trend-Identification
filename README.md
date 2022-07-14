@@ -1,8 +1,8 @@
 # Skill Trend Identification
 
-## Data Collection
+# Data Collection
 Data collection for this project will be done using two methods: APIs and webscraping.
-### Using APIs
+## Using APIs
 Import necessary libraries.
 ```python
 import requests
@@ -75,24 +75,62 @@ for location in locations:
     ws.append(get_number_of_jobs_L(location))
 wb.save("job-postings.xlsx")
 ```
-### Webscraping
+## Webscraping
+I will extract data from the below website:
+```python
+url = "https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBM-DA0321EN-SkillsNetwork/labs/datasets/Programming_Languages.html"
+```
+Required libraries:
+```python
+from bs4 import BeautifulSoup
+import requests
+import pandas as pd
+```
+Download webpage at the url.
+```python
+data  = requests.get(url).text
+```
+Soup object
+```python
+soup = BeautifulSoup(data,"html5lib")
+```
+Scrape the ```Language Name``` and ```Anuual Average Salary```
+```python
+table = soup.find('table')
+language = []
+salary = []
+for row in table.find_all('tr'):
+        cols = row.find_all('td')
+        language_name = cols[1].getText()
+        annual_average_salary = cols[3].getText()
+        language.append(language_name)
+        salary.append(annual_average_salary)
+df = pd.DataFrame(list(zip(language, salary)), columns = ['Language name', 'average_annual_salary'])
+df = df.iloc[1: , :]
+```
+Save scrapped data into a file named popular-languages.csv
+```python
+df.to_csv('popular-languages.csv', index = False)
+```
 
-## Data Wrangling
+## Exploring Data
+
+# Data Wrangling
 Missing Values
 Finding and Removing Duplicates
 Normalizing Data
 
-## Exploratory Data Analysis
+# Exploratory Data Analysis
 Distribution
 Outlier
 Correlation
 
-## Data Visualization
+# Data Visualization
 Visualizing Distribution of Data
 Relationship
 Composition
 Comparison
 
-## Dashboard
+# Dashboard
 
-## Presentation
+# Presentation
