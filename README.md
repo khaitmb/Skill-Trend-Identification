@@ -114,6 +114,16 @@ df.to_csv('popular-languages.csv', index = False)
 ```
 
 ## Exploring Data
+```python
+import pandas as pd
+dataset_url = "https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBM-DA0321EN-SkillsNetwork/LargeData/m1_survey_data.csv"
+df = pd.read_csv(dataset_url)
+df.head()
+df.shape
+df.dtypes
+df["Age"].mean()
+len(df["Country"].unique())
+```
 
 # Data Wrangling
 Missing Values
