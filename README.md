@@ -126,9 +126,44 @@ len(df["Country"].unique())
 ```
 
 # Data Wrangling
-Missing Values
-Finding and Removing Duplicates
-Normalizing Data
+```python
+import pandas as pd                                                                                                     
+df = pd.read_csv("https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBM-DA0321EN-SkillsNetwork/LargeData/m1_survey_data.csv")
+```
+## Finding and Removing Duplicates
+```python
+duplicates = df[df.duplicated()]
+len(duplicates)
+df = df.drop_duplicates()
+len(df)
+```
+
+## Missing Values
+```python
+df.isna()
+df['WorkLoc'].isna().sum()
+df['WorkLoc'].value_counts()
+import numpy as np
+df['WorkLoc'] = df['WorkLoc'].replace(np.nan, 'Office')
+df['WorkLoc'].isna().sum()
+```
+
+## Normalizing Data
+```python
+df['CompFreq'].value_counts()
+annual = []
+def func():
+    for x, y in zip(df['CompFreq'], df['CompTotal']):
+        if x == 'Yearly':
+            annual.append(y)
+        elif x =='Monthly':
+            annual.append(y * 12)
+        else: #'Weekly'
+            annual.append(y * 52)
+func()
+df['NormalizedAnnualCompensation'] = annual
+df['NormalizedAnnualCompensation'].median()
+```
 
 # Exploratory Data Analysis
 Distribution
